@@ -1,38 +1,33 @@
-name: Build ESP32 Firmware
+name: Compile ESP32 Binary
 
 on:
   push:
-    branches:
-      - main
-
+    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@v2
 
-      - name: Install PlatformIO
-        run: pip install platformio
+      - name: Install ESP32 Core & Library OLED
+        run: |
+          arduino-cli core update-index --additional-urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+          arduino-cli core install esp32:esp32 --additional-urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+          arduino-cli lib install "Adafruit SSD1306" "Adafruit GFX Library"
 
-      - name: Build Firmware
-        run: pio run
+      - name: Compile Sketch to BIN
+        run: |
+          arduino-cli compile --fqbn esp32:esp32:esp32 --output-dir ./output .
 
-      - name: Upload BIN Files
+      - name: Upload BIN Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ESP32-Firmware
-          path: |
-            .pio/build/esp32dev/firmware.bin
-            .pio/build/esp32dev/bootloader.bin
-            .pio/build/esp32dev/partitions.bin
+          name: esp32-firmware
+          path: output/*.bin
