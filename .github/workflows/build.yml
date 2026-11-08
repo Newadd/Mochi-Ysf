@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
 
       - name: Setup Arduino CLI
-        uses: arduino/setup-arduino-cli@v2.4.0
+        uses: arduino/setup-arduino-cli@v2
 
       - name: Install ESP32 Core & Library OLED
         run: |
