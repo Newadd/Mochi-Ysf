@@ -27,7 +27,7 @@ void playHeartLineAnimation() {
     float x_raw = 16 * pow(sin(t), 3);
     float y_raw = 13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t);
 
-    // Konversi ke koordinat OLED (Y dibalik karena sumbu 0 layar ada di kiri-atas)
+    // Konversi ke koordinat OLED
     int x = cx + (int)(x_raw * scale);
     int y = cy - (int)(y_raw * scale);
 
@@ -35,14 +35,14 @@ void playHeartLineAnimation() {
     if (prevX != -1 && prevY != -1) {
       display.drawLine(prevX, prevY, x, y, SSD1306_WHITE);
       display.display();
-      delay(25); // Mengatur kecepatan jalannya penulisan garis (ms)
+      delay(25); // Kecepatan jalannya garis (ms)
     }
 
     prevX = x;
     prevY = y;
   }
 
-  delay(700); // Jeda singkat setelah bentuk hati utuh terbentuk
+  delay(700); // Jeda setelah bentuk hati utuh
 }
 
 // Fungsi menampilkan nama dengan efek ngetik (typing effect)
@@ -64,7 +64,7 @@ void displayName(String name) {
     display.setCursor(startX, startY);
     display.print(currentText);
     display.display();
-    delay(150); // Kecepatan karakter muncul
+    delay(150); // Kecepatan muncul karakter
   }
 }
 
@@ -79,7 +79,7 @@ void setup() {
   playHeartLineAnimation();
 
   // 2. Tampilkan teks nama (Ganti "ALEXA" dengan nama pilihanmu)
-  displayName("WHO?");
+  displayName("ALEXA");
 }
 
 void loop() {
