@@ -79,7 +79,7 @@ void setup() {
   playHeartLineAnimation();
 
   // 2. Tampilkan teks nama (Ganti "ALEXA" dengan nama pilihanmu)
-  displayName("ALEXA");
+  displayName("JIHAN");
 }
 
 void loop() {
